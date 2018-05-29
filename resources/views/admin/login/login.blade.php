@@ -15,10 +15,18 @@
 
             <form class="m-t" role="form" action="{{url('login')}}" method="post">
                 <div class="form-group">
-                    <input type="text"  name="name" class="form-control" placeholder="用户名" >
+                    <input type="text"  name="name" class="form-control" placeholder="用户名" required >
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control" placeholder="密码" >
+                    <input type="password" name="password" class="form-control" placeholder="密码"  required>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{captcha_src('flat')}}" onclick="this.src=this.src+'?'" alt="点击刷新">
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="captcha" name="captcha" required placeholder="验证码">
+                    </div>
                 </div>
                 {{ csrf_field() }}
                 <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>

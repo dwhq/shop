@@ -26,6 +26,7 @@ class login extends FormRequest
         return [
             'name'=>'required',//required不能为空
             'password'=>'required',
+            'captcha' => 'required|captcha'
         ];
     }
 
@@ -38,7 +39,8 @@ class login extends FormRequest
     {
         return [
             'name'=>'栏目名称',
-            'password'=>'栏目类型',
+            'password'=>'密码',
+            'code'=>'验证码',
         ];
     }
 
@@ -52,7 +54,8 @@ class login extends FormRequest
         return [
             //'tag_ids.required'=>'必须选择标签',
             'name.required'=>'用户名不能为空',
-            'password.required'=>'密码不能为空'
+            'password.required'=>'密码不能为空',
+            'captcha.required'=>'验证码错误'
         ];
     }
 }

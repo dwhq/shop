@@ -15,24 +15,28 @@ class loginController extends Controller
     public function login(login $request)
     {
         if ($request->isMethod('post')) {
-
-            $name = $request->name;
-            $password = $request->password;
+                $name = $request->name;
+                $password = $request->password;
 //            $data['password'] = Hash::make($request->password);
 
-            $datainfo = DB::table('admin')->where([['name', $name]])->first();
-            if (Hash::check($request->password, $datainfo->password)) {
-                session(['admin_id'=>$datainfo->id,'name'=>$datainfo->name]);
-                return redirect('admin/index');
-            } else {
-                return '登陆失败';
-            };
+                $datainfo = DB::table('admin')->where([['name', $name]])->first();
+                if ($datainfo && Hash::check($request->password, $datainfo->password)) {
+                    exit();
+                    myflash('登陆成功');
+                    session(['admin_id' => $datainfo->id, 'name' => $datainfo->name]);
+                    return redirect('admin/index');
+                } else {
+                    myflash()->error('账号或密码错误');
+                    return redirect()->back();
+                };
+            }
+        }
+        //退出登陆
+        public
+        function logOut(Request $request)
+        {
+            $request->session()->forget('admin_id');
+            myflash()->success('退出登陆');
+            return redirect('/');
         }
     }
-    //退出登陆
-    public function logOut(Request $request){
-        $request->session()->forget('admin_id');
-        myflash()->success('退出登陆');
-        return redirect('/');
-    }
-}

@@ -2,3 +2,7 @@ composer require laravel/horizon --ignore-platform-reqs
 验证码
 composer require mews/captcha --ignore-platform-reqs
 http://laravelacademy.org/post/3910.html
+//秘钥
+php artisan key:generate
+//跳转提示
+composer require laravelchen/myflash

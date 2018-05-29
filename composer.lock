@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "48bb209738af2bb077d7d439dfaa7ed3",
+    "content-hash": "c47617656ca65a9fc918aaeeb7fadce4",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -789,6 +789,45 @@
                 "psysh"
             ],
             "time": "2018-05-17T13:42:07+00:00"
+        },
+        {
+            "name": "laravelchen/myflash",
+            "version": "1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelChen/myflash.git",
+                "reference": "e01b8184c3ab5b4f1b8f53d812d4c5b75bc5a212"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/LaravelChen/myflash/e01b8184c3ab5b4f1b8f53d812d4c5b75bc5a212.zip",
+                "reference": "e01b8184c3ab5b4f1b8f53d812d4c5b75bc5a212",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LaravelChen\\MyFlash\\": "src/LaravelChen/MyFlash"
+                },
+                "files": [
+                    "src/LaravelChen/MyFlash/function.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "LaravelChen",
+                    "email": "848407695@qq.com"
+                }
+            ],
+            "description": "cool flash",
+            "time": "2017-03-13T06:01:11+00:00"
         },
         {
             "name": "league/flysystem",
