@@ -14,3 +14,16 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+//后台登陆
+Route::prefix('/')->namespace('admin')->group(function () {
+    Route::get('/h888.php', function () {
+        return view('admin/login/login');
+    });
+    Route::post('login', 'LoginController@login');
+});
+//后台路由
+Route::prefix('admin')->namespace('admin')->middleware('token')->group(function () {
+    Route::get('index', 'IndexController@index');
+});

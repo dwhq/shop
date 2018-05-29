@@ -1,0 +1,4 @@
+composer require laravel/horizon --ignore-platform-reqs
+验证码
+composer require mews/captcha --ignore-platform-reqs
+http://laravelacademy.org/post/3910.html
