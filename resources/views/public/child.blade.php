@@ -1,23 +1,15 @@
 <html lang="zh-CN">
 <head>
     <title> @yield('title')</title>
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="{{asset('adminfile/css/bootstrap.min.css?v=3.4.0')}}" rel="stylesheet">
-    <link href="{{asset('adminfile/font-awesome/css/font-awesome.css?v=4.3.0')}}" rel="stylesheet">
-
-    <!-- Morris -->
-    <link href="{{asset('adminfile/css/plugins/morris/morris-0.4.3.min.css')}}" rel="stylesheet">
-
-    <!-- Gritter -->
-    <link href="{{asset('adminfile/js/plugins/gritter/jquery.gritter.css')}}" rel="stylesheet">
-
-    <link href="{{asset('adminfile/css/animate.css')}}" rel="stylesheet">
-    <link href="{{asset('adminfile/css/style.css?v=2.2.0')}}" rel="stylesheet">
-    <!-- Mainly scripts -->
-    <script src="{{asset('adminfile/js/jquery-2.1.1.min.js')}}"></script>
-    <script src="{{asset('adminfile/js/bootstrap.min.js?v=3.4.0')}}"></script>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="stylesheet" href="{{asset('adminfile/css/font.css')}}">
+    <link rel="stylesheet" href="{{asset('adminfile/css/xadmin.css')}}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{{asset('adminfile/lib/layui/layui.js')}}" charset="utf-8"></script>
+    <script type="text/javascript" src="{{asset('adminfile/js/xadmin.js')}}"></script>
 
     @yield('import')
 </head>

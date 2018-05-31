@@ -26,4 +26,9 @@ Route::prefix('/')->namespace('admin')->group(function () {
 //后台路由
 Route::prefix('admin')->namespace('admin')->middleware('token')->group(function () {
     Route::get('index', 'IndexController@index');
+    Route::get('index1', 'IndexController@index1');
+    //会员管理
+    Route::prefix('users')->group(function () {
+        Route::get('list', 'usersController@list');
+    });
 });

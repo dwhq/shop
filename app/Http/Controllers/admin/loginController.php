@@ -21,7 +21,6 @@ class loginController extends Controller
 
                 $datainfo = DB::table('admin')->where([['name', $name]])->first();
                 if ($datainfo && Hash::check($request->password, $datainfo->password)) {
-                    exit();
                     myflash('登陆成功');
                     session(['admin_id' => $datainfo->id, 'name' => $datainfo->name]);
                     return redirect('admin/index');
