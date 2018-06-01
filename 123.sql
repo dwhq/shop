@@ -1,5 +1,5 @@
 /*
-SQLyog Professional v12.08 (64 bit)
+SQLyog Ultimate v12.09 (64 bit)
 MySQL - 5.5.53 : Database - shop
 *********************************************************************
 */
@@ -12,7 +12,7 @@ MySQL - 5.5.53 : Database - shop
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`shop` /*!40100 DEFAULT CHARACTER SET utf32 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`shop` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `shop`;
 
@@ -39,6 +39,89 @@ CREATE TABLE `shop_admin` (
 /*Data for the table `shop_admin` */
 
 insert  into `shop_admin`(`id`,`name`,`pet_name`,`password`,`email`,`mobile`,`sex`,`last_time`,`last_ip`,`time`,`status`,`auth_group_id`) values (14,'admin','余温','$2y$10$Te71cQRWCF4psXpR2Uuqb.8HJSbqhwyv8WUJD/iV6SAtJOASTVRVS','123@qq.com',NULL,1,NULL,NULL,NULL,0,NULL);
+
+/*Table structure for table `shop_daili` */
+
+DROP TABLE IF EXISTS `shop_daili`;
+
+CREATE TABLE `shop_daili` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
+  `account` varchar(50) DEFAULT NULL COMMENT '商家名称',
+  `user_name` varchar(50) DEFAULT NULL COMMENT '联系人姓名',
+  `mark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `add_time` int(11) DEFAULT NULL COMMENT '添加时间',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+/*Data for the table `shop_daili` */
+
+insert  into `shop_daili`(`id`,`mobile`,`account`,`user_name`,`mark`,`add_time`,`status`) values (19,'13488402532','商家名',' 姓名','备注',1527839682,0),(20,'6','6+6','66','6',1527845415,1),(21,'1321','123','132','123',1527846051,1);
+
+/*Table structure for table `shop_goods` */
+
+DROP TABLE IF EXISTS `shop_goods`;
+
+CREATE TABLE `shop_goods` (
+  `goods_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '商品id',
+  `cat_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '分类id',
+  `goods_sn` varchar(60) NOT NULL DEFAULT '' COMMENT '商品编号',
+  `goods_name` varchar(120) NOT NULL DEFAULT '' COMMENT '商品名称',
+  `store_count` int(10) unsigned NOT NULL DEFAULT '1000' COMMENT '库存数量',
+  `weight` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商品重量克为单位',
+  `market_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '市场价',
+  `shop_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '本店价',
+  `cost_price` decimal(10,2) DEFAULT '0.00' COMMENT '商品成本价',
+  `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '商品关键词',
+  `goods_remark` varchar(255) NOT NULL DEFAULT '' COMMENT '商品简单描述',
+  `goods_content` text COMMENT '商品详细描述',
+  `original_img` varchar(255) NOT NULL DEFAULT '' COMMENT '商品上传原始图',
+  `is_real` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否为实物',
+  `is_on_sale` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否上架',
+  `is_free_shipping` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否包邮0否1是',
+  `on_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品上架时间',
+  `sort` smallint(4) unsigned NOT NULL DEFAULT '50' COMMENT '商品排序',
+  `is_recommend` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否推荐',
+  `is_new` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否新品',
+  `is_hot` tinyint(1) DEFAULT '0' COMMENT '是否热卖',
+  `last_update` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+  `goods_type` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '商品所属类型id，取值表goods_type的cat_id',
+  `spec_type` smallint(5) DEFAULT '0' COMMENT '商品规格类型，取值表goods_type的cat_id',
+  `sales_sum` int(11) DEFAULT '0' COMMENT '商品销量',
+  `snum` int(11) DEFAULT '0' COMMENT '虚拟销量',
+  `prom_type` tinyint(1) DEFAULT '0' COMMENT '0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠,4,是套装5,是活动',
+  `sid` int(11) DEFAULT '0' COMMENT '供货商',
+  `is_vip` tinyint(1) NOT NULL DEFAULT '0' COMMENT '会员专享',
+  `vip_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '会员价',
+  KEY `goods_sn` (`goods_id`),
+  KEY `cat_id` (`cat_id`),
+  KEY `last_update` (`last_update`),
+  KEY `goods_number` (`store_count`),
+  KEY `goods_weight` (`weight`),
+  KEY `sort_order` (`sort`)
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+/*Data for the table `shop_goods` */
+
+/*Table structure for table `shop_goods_category` */
+
+DROP TABLE IF EXISTS `shop_goods_category`;
+
+CREATE TABLE `shop_goods_category` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '商品分类id',
+  `name` varchar(90) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '商品分类名称',
+  `parent_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '父id',
+  `sort_order` tinyint(1) unsigned NOT NULL DEFAULT '50' COMMENT '顺序排序',
+  `is_show` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否显示',
+  `image` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '分类图片',
+  `is_hot` tinyint(1) DEFAULT '0' COMMENT '是否推荐为热门分类',
+  `cat_group` tinyint(1) DEFAULT '0' COMMENT '分类分组默认0',
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parent_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=412 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+/*Data for the table `shop_goods_category` */
 
 /*Table structure for table `shop_users` */
 
