@@ -119,6 +119,46 @@
                 </li>
                 <li>
                     <a href="javascript:;">
+                        <i class="iconfont">&#xe6b8;</i>
+                        <cite>商品管理</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a _href="{{url('admin/users/list')}}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>商品分类</cite>
+
+                            </a>
+                        </li >
+                        <li>
+                            <a _href="member-del.html">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>商品列表</cite>
+                            </a>
+                        </li>
+                        <li>
+                            <a _href="member-del.html">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>商品规格</cite>
+                            </a>
+                        </li>
+                        <li>
+                            <a _href="{{url('admin/goods/daili')}}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>商家管理</cite>
+                            </a>
+                        </li>
+                        <li>
+                            <a _href="member-del.html">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>商品销量</cite>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;">
                         <i class="iconfont">&#xe723;</i>
                         <cite>订单管理</cite>
                         <i class="iconfont nav_right">&#xe697;</i>

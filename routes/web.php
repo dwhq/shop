@@ -29,6 +29,13 @@ Route::prefix('admin')->namespace('admin')->middleware('token')->group(function 
     Route::get('index1', 'IndexController@index1');
     //会员管理
     Route::prefix('users')->group(function () {
-        Route::get('list', 'usersController@list');
+        Route::any('list', 'usersController@list');
+    });
+    //商品管理
+    Route::prefix('goods')->group(function () {
+        Route::any('list', 'goodsController@list');
+        Route::any('daili', 'goodsController@dailiList');
+        Route::any('add_daili', 'goodsController@add_daili');
+        Route::post('show_daili', 'goodsController@show_daili');
     });
 });

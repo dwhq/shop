@@ -26,10 +26,10 @@
             </form>
         </div>
         <xblock>
-            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-            <button class="layui-btn" onclick="x_admin_show('添加用户','./member-add.html',600,400)"><i
+            {{--<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>--}}
+            <a class="layui-btn" href="{{url('admin/goods/add_daili')}}"><i
                         class="layui-icon"></i>添加
-            </button>
+            </a>
             <span class="x-right" style="line-height:40px">共有数据：88 条</span>
         </xblock>
         <table class="layui-table">
@@ -40,12 +40,11 @@
                     </div>
                 </th>
                 <th>ID</th>
-                <th>会员编号</th>
-                <th>用户名</th>
-                <th>性别</th>
-                <th>手机</th>
-                <th>导师</th>
-                <th>激活时间</th>
+                <th>商家名称</th>
+                <th>联系人姓名</th>
+                <th>联系电话</th>
+                <th>备注</th>
+                <th>添加时间</th>
                 <th>状态</th>
                 <th>操作</th>
             </tr>
@@ -58,29 +57,27 @@
                                     class="layui-icon">&#xe605;</i></div>
                     </td>
                     <td>{{$user->id}}</td>
-                    <td>{{$user->user_id}}</td>
+                    <td>{{$user->account}}</td>
                     <td>{{$user->user_name}}</td>
-                    <td>{{$user->sex}}</td>
-                    <td>{{$user->user_tel}}</td>
-                    <td>{{$user->re_id}}</td>
-                    <td>{{date('Y-m-d H:i:s',$user->pdt)}}</td>
+                    <td>{{$user->mobile}}</td>
+                    <td>{{$user->mark}}</td>
+                    <td>{{date('Y-m-d H:i:s',$user->add_time)}}</td>
                     <td class="td-status">
-                        @if($user->pdt>0)
-                            已激活
+                        @if($user->status > 0)
+                            <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
                         @else
-                            未激活
+                            <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">已停用</span>
                         @endif
                     </td>
                     <td class="td-manage">
-                        <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
-                            <i class="layui-icon">&#xe601;</i>
+                        <a onclick="member_stop(this,'{{$user->id}}',{{$user->status}})" href="javascript:;"
+                           title=" @if($user->status = 1)停用@endif">
+                            @if($user->status = 1)
+                                <i class="layui-icon">&#xe601;</i>
+                            @endif
                         </a>
                         <a title="编辑" onclick="x_admin_show('编辑','member-edit.html',600,400)" href="javascript:;">
                             <i class="layui-icon">&#xe642;</i>
-                        </a>
-                        <a onclick="x_admin_show('修改密码','member-password.html',600,400)" title="修改密码"
-                           href="javascript:;">
-                            <i class="layui-icon">&#xe631;</i>
                         </a>
                         <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
                             <i class="layui-icon">&#xe640;</i>
@@ -113,22 +110,31 @@
         });
 
         /*用户-停用*/
-        function member_stop(obj, id) {
+        function member_stop(obj, id, statu) {
             layer.confirm('确认要停用吗？', function (index) {
-
+                let status = statu;
+                console.log(status);
+                status == 1 ? status = 0 : status = 1;
+                console.log('-------------------------------------------');
+                console.log(status);
+                $.post("{{url('admin/goods/show_daili')}}", {
+                    'id': id,
+                    'status': status,
+                    '_token': "{{csrf_token()}}"
+                });
+                //重新定义事件的值
+                $(obj).bind('click', function () {
+                    member_stop(obj, id, status);
+                });
                 if ($(obj).attr('title') == '启用') {
-
                     //发异步把用户状态进行更改
                     $(obj).attr('title', '停用')
                     $(obj).find('i').html('&#xe62f;');
-
                     $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
                     layer.msg('已停用!', {icon: 5, time: 1000});
-
                 } else {
                     $(obj).attr('title', '启用')
                     $(obj).find('i').html('&#xe601;');
-
                     $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
                     layer.msg('已启用!', {icon: 5, time: 1000});
                 }
