@@ -37,5 +37,8 @@ Route::prefix('admin')->namespace('admin')->middleware('token')->group(function 
         Route::any('daili', 'goodsController@dailiList');
         Route::any('add_daili', 'goodsController@add_daili');
         Route::post('show_daili', 'goodsController@show_daili');
+        Route::get('category', 'goodsController@category');
+        Route::get('add_category_page', 'goodsController@add_category_page');
+        Route::post('add_category', 'goodsController@add_category');
     });
 });

@@ -125,7 +125,7 @@
                     </a>
                     <ul class="sub-menu">
                         <li>
-                            <a _href="{{url('admin/users/list')}}">
+                            <a _href="{{url('admin/users/category')}}">
                                 <i class="iconfont">&#xe6a7;</i>
                                 <cite>商品分类</cite>
 

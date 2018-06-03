@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Http\Requests\category;
 use App\Http\Requests\daili;
 use App\model\good;
 use Illuminate\Http\Request;
@@ -90,11 +91,11 @@ class goodsController extends Controller
             $status = $request->status;
             $id = $request->id;
             if (filled($status)) {
-                $daili = DB::table('daili')->where([['id',$id]])->update(['status' => $status]);
+                $daili = DB::table('daili')->where([['id', $id]])->update(['status' => $status]);
                 if ($daili) {
                     $data['status'] = 1;
                     $data['info'] = '更改成功';
-                }else{
+                } else {
                     $data['status'] = 2;
                     $data['info'] = '更改失败';
                 }
@@ -103,6 +104,34 @@ class goodsController extends Controller
                 $data['info'] = '更改失败';
             }
             return $data;
+        }
+    }
+
+    public function category()
+    {
+        return view('admin.goods.category');
+    }
+
+    public function add_category_page()
+    {
+        return view('admin.goods.add_category');
+    }
+
+    public function add_category(category  $request)
+    {
+        $data['name'] = $request->name;
+        $data['parent_id'] = $request->parent_id;//父id
+        $data['sort_order'] = $request->sort_order;//顺序排序
+        $data['is_show'] = $request->is_show;//是否显示
+        $data['image'] = $request->image;//分类图片
+        $data['is_hott'] = $request->is_hott;//是否推荐为热门分类
+        $cate = DB::table('category')->insertGetId($data);
+        if ($cate) {
+            myflash()->success('添加分类成功');
+            return redirect('admin/goods/category');
+        } else {
+            myflash()->error('添加分类失败');
+            return redirect()->back();
         }
     }
 }
