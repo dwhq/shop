@@ -109,23 +109,42 @@ class goodsController extends Controller
 
     public function category()
     {
-        return view('admin.goods.category');
+        //$data = self::category_list();
+        $data = DB::table('goods_category')->get();
+        return view('admin.goods.category')
+            ->with('data', $data);
     }
 
-    public function add_category_page()
+    /**
+     * @param $parent_id
+     * @return $this
+     * 添加商品分类
+     */
+    public function add_category_page($parent_id)
     {
-        return view('admin.goods.add_category');
+        $data = DB::table('goods_category')->where([['id', $parent_id]])->first();
+        $data->parent_id =  $data->id ;
+        if ($parent_id == 0) {
+            $data =(object)array();
+            $data->name = '';
+            $data->parent_id = 0 ;
+            $data->level = 0;
+        }
+        $data->level += 1;
+        return view('admin.goods.add_category')
+            ->with('data', $data);
     }
 
-    public function add_category(category  $request)
+    public function add_category(category $request)
     {
         $data['name'] = $request->name;
         $data['parent_id'] = $request->parent_id;//父id
         $data['sort_order'] = $request->sort_order;//顺序排序
         $data['is_show'] = $request->is_show;//是否显示
         $data['image'] = $request->image;//分类图片
-        $data['is_hott'] = $request->is_hott;//是否推荐为热门分类
-        $cate = DB::table('category')->insertGetId($data);
+        $data['is_hot'] = $request->is_hott;//是否推荐为热门分类
+        $data['level'] = $request->level;//是否推荐为热门分类
+        $cate = DB::table('goods_category')->insertGetId($data);
         if ($cate) {
             myflash()->success('添加分类成功');
             return redirect('admin/goods/category');
@@ -133,5 +152,15 @@ class goodsController extends Controller
             myflash()->error('添加分类失败');
             return redirect()->back();
         }
+    }
+
+    //分类信息
+    public static function category_list($parent_id = 0)
+    {
+        $category = DB::table('goods_category')->where([['parent_id', $parent_id]])->get()->toArray();
+        foreach ($category as &$value) {
+            $value->level = self::category_list($value->id);
+        };
+        return $category;
     }
 }

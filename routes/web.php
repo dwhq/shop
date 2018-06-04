@@ -38,7 +38,7 @@ Route::prefix('admin')->namespace('admin')->middleware('token')->group(function 
         Route::any('add_daili', 'goodsController@add_daili');
         Route::post('show_daili', 'goodsController@show_daili');
         Route::get('category', 'goodsController@category');
-        Route::get('add_category_page', 'goodsController@add_category_page');
+        Route::get('add_category_page/{parent_id}', 'goodsController@add_category_page')->where('parent_id','[0-9]+');
         Route::post('add_category', 'goodsController@add_category');
     });
 });
