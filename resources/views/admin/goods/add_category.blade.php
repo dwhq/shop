@@ -1,9 +1,10 @@
 @extends('public.child')
 
-@section('title', '后台登陆')
+@section('title', '添加分类')
 @section('import')
 @endsection
 @section('content')
+
     <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="javascript:;">首页</a>
@@ -26,49 +27,55 @@
                 </div>
             </div>
             {{--<div class="layui-row layui-form-item">--}}
-                {{--<label class="layui-form-label">上级分类</label>--}}
-                {{--<div class="layui-input-block">--}}
-                    {{--<div class="layui-col-md4 layui-input-inline">--}}
-                        {{--<select id="one" onchange="change(this.value);" lay-filter="one">--}}
-                            {{--<option>一级分类</option>--}}
-                            {{--<option>一级分类</option>--}}
-                            {{--<option>一级分类</option>--}}
-                            {{--<option>一级分类</option>--}}
-                            {{--<option>一级分类</option>--}}
-                            {{--<option>一级分类</option>--}}
-                            {{--<option>一级分类</option>--}}
-                            {{--<option>一级分类</option>--}}
-                        {{--</select>--}}
-                    {{--</div>--}}
-                    {{--<div class="layui-col-md4 layui-input-inline">--}}
-                        {{--<select id="two" onchange="changeTow(this.value);">--}}
-                            {{--<option>子分类</option>--}}
-                        {{--</select>--}}
-                    {{--</div>--}}
-                    {{--<div class="layui-col-md4 layui-input-inline">--}}
-                        {{--<select id="three" onchange="change(this.value);">--}}
-                            {{--<option>子分类</option>--}}
-                        {{--</select>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
+            {{--<label class="layui-form-label">上级分类</label>--}}
+            {{--<div class="layui-input-block">--}}
+            {{--<div class="layui-col-md4 layui-input-inline">--}}
+            {{--<select id="one" onchange="change(this.value);" lay-filter="one">--}}
+            {{--<option>一级分类</option>--}}
+            {{--<option>一级分类</option>--}}
+            {{--<option>一级分类</option>--}}
+            {{--<option>一级分类</option>--}}
+            {{--<option>一级分类</option>--}}
+            {{--<option>一级分类</option>--}}
+            {{--<option>一级分类</option>--}}
+            {{--<option>一级分类</option>--}}
+            {{--</select>--}}
+            {{--</div>--}}
+            {{--<div class="layui-col-md4 layui-input-inline">--}}
+            {{--<select id="two" onchange="changeTow(this.value);">--}}
+            {{--<option>子分类</option>--}}
+            {{--</select>--}}
+            {{--</div>--}}
+            {{--<div class="layui-col-md4 layui-input-inline">--}}
+            {{--<select id="three" onchange="change(this.value);">--}}
+            {{--<option>子分类</option>--}}
+            {{--</select>--}}
+            {{--</div>--}}
+            {{--</div>--}}
             {{--</div>--}}
             <div class="layui-form-item">
                 <label class="layui-form-label">上级分类:</label>
                 <div class="layui-input-block">
-                    <input type="text" name="account"  value="{{$data->name}}" lay-verify="required" placeholder="请输名称"
-                           autocomplete="off" class="layui-input layui-disabled">
+                    <input type="text" name="account" value="{{$data->name or '顶级分类'}}" lay-verify="required"
+                           placeholder="请输名称"
+                           autocomplete="off" class="layui-input layui-disabled" disabled="true">
                 </div>
             </div>
-            <input type="hidden" name="parent_id" value="{{$data->parent_id}}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类图片:</label>
+                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                <div class="layui-inline">
+                    <input type="text" name="image" value="" lay-verify="required" placeholder="请输名称"
+                           autocomplete="off" id="image" class="layui-input layui-disabled">
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn test layui-col-md-offset3" id="upload">上传图片</a>
+                </div>
+            </div>
+            <input type="hidden" name="parent_id" value="{{$data->parent_id or 0}}">
             <input type="hidden" name="level" value="{{$data->level}}">
             {{ csrf_field() }}
-            <div class="layui-form-item">
-                <label class="layui-form-label">联系人姓名:</label>
-                <div class="layui-input-block">
-                    <input type="text" name="user_name" required lay-verify="required" placeholder="请输联系人姓名"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
+
             <div class="layui-form-item">
                 <label class="layui-form-label">排序:</label>
                 <div class="layui-input-block">
@@ -77,22 +84,9 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">联系方式:</label>
-                <div class="layui-input-block">
-                    <input type="text" name="mobile" required lay-verify="required" placeholder="请输联系方式"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
                 <label class="layui-form-label">状态</label>
                 <div class="layui-input-block">
                     <input type="checkbox" name="is_show" value="1" title="上架" checked>
-                </div>
-            </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">备注</label>
-                <div class="layui-input-block">
-                    <textarea name="mark" placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -117,6 +111,32 @@
         //         }
         //     });
         // });
+        layui.use('upload', function () {
+            var upload = layui.upload;
+
+            //执行实例
+            upload.render({
+                elem: '#upload',
+                url: "{{url('admin/upload')}}", //必填项
+                //method: 'post',  //可选项。HTTP类型，默认post
+                data: {
+                    '_token': "{{csrf_token()}}"
+                },//可选项。额外的参数，如：{id: 123, abc: 'xxx'}
+                done: function (res, index, upload) {
+                    //获取当前触发上传的元素，一般用于 elem 绑定 class 的情况，注意：此乃 layui 2.1.0 新增
+                    if (res.status == 0) {
+                        document.querySelector('#image').value = res.path;
+                    } else {
+                        layer.msg('上传失败', {icon: 5});
+                    }
+                }
+            })
+        });
+        //添加成功后关闭页面
+        if(@json($state) == 1 ){
+            window.parent.location.reload();
+            parent.layer.close();
+        }
     </script>
     <script>
         // layui.form.on('select(one)', function(data){
@@ -132,14 +152,16 @@
         //     // pca.cityRender(city,data.value);
         // });
         let two = document.querySelector('#two');
+
         function change(src) {
             two.innerHTML = "";
             console.log(src);
-            if(src == '一级分类'){
-                var op = new Option('请选择地市' , '请选择地市' , false , false);
+            if (src == '一级分类') {
+                var op = new Option('请选择地市', '请选择地市', false, false);
                 two.options[0] = op;
             }
         }
     </script>
-
+    <script>
+    </script>
 @endsection

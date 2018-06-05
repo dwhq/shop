@@ -110,7 +110,7 @@ class goodsController extends Controller
     public function category()
     {
         //$data = self::category_list();
-        $data = DB::table('goods_category')->get();
+        $data = self::category_list();
         return view('admin.goods.category')
             ->with('data', $data);
     }
@@ -123,18 +123,23 @@ class goodsController extends Controller
     public function add_category_page($parent_id)
     {
         $data = DB::table('goods_category')->where([['id', $parent_id]])->first();
-        $data->parent_id =  $data->id ;
         if ($parent_id == 0) {
-            $data =(object)array();
-            $data->name = '';
-            $data->parent_id = 0 ;
+            $data = (object)array();
             $data->level = 0;
+        } else {
+            $data->parent_id = $data->id;
         }
         $data->level += 1;
         return view('admin.goods.add_category')
+            ->with('state', session()->get('state'))
             ->with('data', $data);
     }
 
+    /**
+     * @param category $request
+     * @return \Illuminate\Http\RedirectResponse
+     * 添加分类
+     */
     public function add_category(category $request)
     {
         $data['name'] = $request->name;
@@ -147,7 +152,7 @@ class goodsController extends Controller
         $cate = DB::table('goods_category')->insertGetId($data);
         if ($cate) {
             myflash()->success('添加分类成功');
-            return redirect('admin/goods/category');
+            return redirect()->back()->with('state', 1);
         } else {
             myflash()->error('添加分类失败');
             return redirect()->back();
@@ -157,10 +162,50 @@ class goodsController extends Controller
     //分类信息
     public static function category_list($parent_id = 0)
     {
-        $category = DB::table('goods_category')->where([['parent_id', $parent_id]])->get()->toArray();
+        $category = DB::table('goods_category')->where([['parent_id', $parent_id]])->get();
         foreach ($category as &$value) {
-            $value->level = self::category_list($value->id);
+            $value->levels = self::category_list($value->id);
         };
         return $category;
+    }
+
+    /**
+     * @param $parent_id
+     * @return $this
+     * 修改商品分类页面
+     */
+    public function alter_category_page($id)
+    {
+        $data = DB::table('goods_category')->where([['id', $id]])->first();
+        if (!$data) {
+            myflash()->error('此分类不存在');
+            return redirect()->back();
+        }
+        return view('admin.goods.alter_category')
+            ->with('state', session()->get('state'))
+            ->with('id', $id)
+            ->with('data', $data);
+    }
+
+    /**
+     * @param category $request
+     * @return \Illuminate\Http\RedirectResponse
+     * 添加分类
+     */
+    public function alter_category(category $request)
+    {
+        $data['name'] = $request->name;
+        $data['sort_order'] = $request->sort_order;//顺序排序
+        $data['is_show'] = $request->is_show;//是否显示
+        $data['image'] = $request->image;//分类图片
+        $id = $request->id;
+        $cate = DB::table('goods_category')->where([['id', $id]])->update($data);
+        if ($cate) {
+            myflash()->success('修改分类成功');
+            return redirect()->back()->with('state', 1);
+        } else {
+            myflash()->error('修改分类失败');
+            return redirect()->back();
+        }
     }
 }

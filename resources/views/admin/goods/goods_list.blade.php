@@ -39,38 +39,59 @@
                     <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i>
                     </div>
                 </th>
-                <th>ID</th>
-                <th>会员编号</th>
-                <th>用户名</th>
-                <th>性别</th>
-                <th>手机</th>
-                <th>导师</th>
-                <th>激活时间</th>
-                <th>状态</th>
+                <th>商品ID</th>
+                <th>分类名称</th>
+                <th>商品编号</th>
+                <th>商品名称</th>
+                <th>库存数量</th>
+                <th>市场价</th>
+                <th>本店价</th>
+                <th>商品排序</th>
+                <th>是否上架</th>
+                <th>是否推荐</th>
+                <th>是否热卖</th>
+                <th>商品销量</th>
+                <th>供货商</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($data as $user)
+            @foreach($data as $data)
                 <tr>
                     <td>
                         <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i
                                     class="layui-icon">&#xe605;</i></div>
                     </td>
-                    <td>{{$user->id}}</td>
-                    <td>{{$user->user_id}}</td>
-                    <td>{{$user->user_name}}</td>
-                    <td>{{$user->sex}}</td>
-                    <td>{{$user->user_tel}}</td>
-                    <td>{{$user->re_id}}</td>
-                    <td>{{date('Y-m-d H:i:s',$user->pdt)}}</td>
-                    <td class="td-status">
-                        @if($user->pdt>0)
-                            已激活
+                    <td>{{$data->goods_id}}</td>
+                    <td>{{$data->cat_name}}</td>
+                    <td>{{$data->goods_sn}}</td>
+                    <td>{{$data->goods_name}}</td>
+                    <td>{{$data->store_count}}</td>
+                    <td>{{$data->market_price}}</td>
+                    <td>{{$data->shop_price}}</td>
+                    <td>{{$data->sort}}</td>
+                    <td>
+                        @if($data->is_on_sale == 1)
+                            <button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">layui-icon-ok</i></button>
                         @else
-                            未激活
+                            <button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">layui-icon-close</i></button>
                         @endif
                     </td>
+                    <td>
+                        @if($data->is_recommend == 1)
+                            <button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">layui-icon-ok</i></button>
+                        @else
+                            <button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">layui-icon-close</i></button>
+                        @endif
+                    </td>
+                    <td>
+                        @if($data->is_on_sale == 1)
+                            <button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">layui-icon-ok</i></button>
+                        @else
+                            <button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">layui-icon-close</i></button>
+                        @endif
+                    </td>
+
                     <td class="td-manage">
                         <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
                             <i class="layui-icon">&#xe601;</i>

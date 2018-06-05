@@ -20,14 +20,11 @@
         <div class="layui-row">
             <button class="layui-btn "
                     onclick="x_admin_show('添加子栏目','{{url('admin/goods/add_category_page/0')}}')">
-                <i class="layui-icon">&#xe642;</i>添加子栏目
+                <i class="layui-icon">&#xe642;</i>添加分类
             </button>
         </div>
-        <blockquote class="layui-elem-quote">每个tr 上有两个属性 cate-id='1' 当前分类id fid='0' 父级id ,顶级分类为 0，有子分类的前面加收缩图标<i
-                    class="layui-icon x-show" status='true'>&#xe623;</i></blockquote>
-        <xblock>
-            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-            <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        {{--<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>--}}
+        {{--<span class="x-right" style="line-height:40px">共有数据：88 条</span>--}}
         </xblock>
         <table class="layui-table layui-form">
             <thead>
@@ -51,13 +48,8 @@
                     </td>
                     <td>{{$value->id}}</td>
                     <td>
-                        @if($value->level == 1)
+                        @if($value->levels->first())
                             <i class="layui-icon x-show" status='true'>&#xe623;</i>
-                        @elseif($value->level == 2)
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="layui-icon x-show" status='true'>&#xe623;</i>
-                        @else
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;├
                         @endif
                         {{$value->name}}
                     </td>
@@ -67,7 +59,7 @@
                     </td>
                     <td class="td-manage">
                         <button class="layui-btn layui-btn layui-btn-xs"
-                                onclick="x_admin_show('编辑','{{url('admin/goods/alter_category/'.$value->id)}}')">
+                                onclick="x_admin_show('编辑','{{url('admin/goods/alter_category_page/'.$value->id)}}')">
                             <i class="layui-icon">&#xe642;</i>编辑
                         </button>
                         @if($value->level != 3)
@@ -81,6 +73,75 @@
                         </button>
                     </td>
                 </tr>
+                @foreach($value->levels as $va)
+                    <tr cate-id='{{$va->id}}' fid='{{$va->parent_id}}'>
+                        <td>
+                            <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id=''><i
+                                        class="layui-icon">&#xe605;</i></div>
+                        </td>
+                        <td>{{$va->id}}</td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @if($va->levels->first())
+                               <i class="layui-icon x-show" status='true'>&#xe623;</i>
+                            @endif
+                            {{$va->name}}
+                        </td>
+                        <td><input type="text" class="layui-input x-sort" name="order" value="{{$va->sort_order}}"></td>
+                        <td>
+                            <input type="checkbox" name="switch" lay-text="开启|停用" checked="" lay-skin="switch">
+                        </td>
+                        <td class="td-manage">
+                            <button class="layui-btn layui-btn layui-btn-xs"
+                                    onclick="x_admin_show('编辑','{{url('admin/goods/alter_category_page/'.$va->id)}}')">
+                                <i class="layui-icon">&#xe642;</i>编辑
+                            </button>
+                            @if($va->level != 3)
+                                <button class="layui-btn layui-btn-warm layui-btn-xs"
+                                        onclick="x_admin_show('添加子栏目','{{url('admin/goods/add_category_page/'.$va->id)}}')">
+                                    <i class="layui-icon">&#xe642;</i>添加子栏目
+                                </button>
+                            @endif
+                            <button class="layui-btn-danger layui-btn layui-btn-xs" onclick="member_del(this,'要删除的id')"
+                                    href="javascript:;"><i class="layui-icon">&#xe640;</i>删除
+                            </button>
+                        </td>
+                    </tr>
+                    @foreach($va->levels as $dd)
+                        <tr cate-id='{{$dd->id}}' fid='{{$dd->parent_id}}'>
+                            <td>
+                                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id=''><i
+                                            class="layui-icon">&#xe605;</i></div>
+                            </td>
+                            <td>{{$dd->id}}</td>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├
+                                {{$dd->name}}
+                            </td>
+                            <td><input type="text" class="layui-input x-sort" name="order"
+                                       value="{{$value->sort_order}}"></td>
+                            <td>
+                                <input type="checkbox" name="switch" lay-text="开启|停用" checked="" lay-skin="switch">
+                            </td>
+                            <td class="td-manage">
+                                <button class="layui-btn layui-btn layui-btn-xs"
+                                        onclick="x_admin_show('编辑','{{url('admin/goods/alter_category_page/'.$value->id)}}')">
+                                    <i class="layui-icon">&#xe642;</i>编辑
+                                </button>
+                                @if($dd->level != 3)
+                                    <button class="layui-btn layui-btn-warm layui-btn-xs"
+                                            onclick="x_admin_show('添加子栏目','{{url('admin/goods/add_category_page/'.$value->id)}}')">
+                                        <i class="layui-icon">&#xe642;</i>添加子栏目
+                                    </button>
+                                @endif
+                                <button class="layui-btn-danger layui-btn layui-btn-xs"
+                                        onclick="member_del(this,'要删除的id')"
+                                        href="javascript:;"><i class="layui-icon">&#xe640;</i>删除
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endforeach
             @endforeach
             </tbody>
         </table>
